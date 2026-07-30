@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <Wire.h>
 
 #include <Adafruit_SSD1306.h>
@@ -9,14 +10,14 @@
 #define OLED_RESET -1
 #define SCREEN_ADDR 0x3C
 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &wire, OLED_RESET);
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void setup() {
   Serial.begin(115200);
 
   delay(500); // Wait for display
 
-  if (!display.begin(SSD1306_SWITCHAPVCC, SCREEN_ADDR)) {
+  if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDR)) {
     Serial.println("[OLED] Display not Initialised!\n.");
     for (;;) Serial.print(".");
   }
@@ -28,7 +29,7 @@ void setup() {
   delay(2000);
 
   // Clear the buffer
-  display.ClearDisplay();
+  display.clearDisplay();
 
   // Set for params for text display
   display.setTextSize(4);
