@@ -1,46 +1,45 @@
 #include <Arduino.h>
-#include <Wire.h>
 
-#include <Adafruit_SSD1306.h>
-#include <Adafruit_GFX.h>
+#include <display.h>
+#include <config.h>
 
-#define SCREEN_HEIGHT 128
-#define SCREEN_WIDTH 64
-
-#define OLED_RESET -1
-#define SCREEN_ADDR 0x3C
-
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+timer_t timer;
 
 void setup() {
   Serial.begin(115200);
 
+	pinMode(BTN_ONE, INPUT_PULLUP);
+	pinMode(BTN_TWO, INPUT_PULLUP);
+	pinMode(BUZZER_PIN, OUTPUT);
+	pinMode(POT_PIN, INPUT);
+	pinMode(13, OUTPUT);
+
+	// tone(BUZZER_PIN, 1000);
+
+
+
   delay(500); // Wait for display
+	if (!display_init()) {
+		Serial.println("[ERROR] Display failed to initialise!");
+		digitalWrite(13, HIGH);
+		while (true) {
+		}
+	}
 
-  if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDR)) {
-    Serial.println("[OLED] Display not Initialised!\n.");
-    for (;;) Serial.print(".");
-  }
-
-  Serial.println("[OLED] Display Initialised Successfully!");
-
-  // Show initial display buffer contents on the screen (Adafuit Logo)
-  display.display();
-  delay(2000);
-
-  // Clear the buffer
-  display.clearDisplay();
-
-  // Set for params for text display
-  display.setTextSize(4);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(2, 4);
-  display.cp437(true);  // Use full 256 char 'Code Page 437' font
-
-  display.write("Test");
+	timer.seconds = 30;
+	timer.minutes = 5;
+	
+	// display_home_screen();
 }
 
 void loop() {
+	start_timer_with_display(timer);
+	// delay(1000);
+	if (!digitalRead(BTN_ONE)) {
+		noTone(BUZZER_PIN);
+	}
 
-
+	if (!digitalRead(BTN_TWO)) {
+		tone(BUZZER_PIN, 5000);
+	}
 }
