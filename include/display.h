@@ -15,37 +15,38 @@ bool display_init() {
   }
 
   // Show initial display buffer contents on the screen (Adafuit Logo)
-  display.display();
-  delay(2000);
+  // display.display();
+  // delay(2000);
 
   // Clear the buffer
-  display.clearDisplay();
+  // display.clearDisplay();
 
-  // Set for params for text display
-  display.setTextSize(4);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(2, 4);
-  display.cp437(true);  // Use full 256 char 'Code Page 437' font
+  // // Set for params for text display
+  // display.setTextSize(4);
+  // display.setTextColor(SSD1306_WHITE);
+  // display.setCursor(2, 4);
+  // display.cp437(true);  // Use full 256 char 'Code Page 437' font
 
-  display.write("Test");
+  // display.write("Test");
 
 	return true;
 }
 
-void display_home_screen() {
-	// Set home screen with various options
-	display.clearDisplay();
+// void display_home_screen() {
+// 	// Set home screen with various options
+// 	display.clearDisplay();
 
-	display.drawRect(1, 1, 126, 62, 1);
+// 	display.drawRect(1, 1, 126, 62, 1);
 
-	display.setTextColor(1);
-	display.setTextWrap(false);
-	display.setCursor(20, 19);
-	display.print("Overcomplicated");
-	display.setCursor(26, 37);
-	display.print("Kitchen Timer");
-	display.display();
-}
+// 	display.setTextColor(1);
+// 	display.setTextWrap(false);
+// 	display.setCursor(20, 19);
+// 	display.print("Overcomplicated");
+// 	display.setCursor(26, 37);
+// 	display.print("Kitchen Timer");
+// 	display.display();
+// 	delay(2000);
+// }
 
 void display_timer() {
 	// Display the options for starting the timer. Remember that the potentiometer is controls the time knob 
@@ -93,7 +94,7 @@ void start_timer_with_display(timer_t time) {
 		}		
 
 		if (time.seconds == 0 && time.minutes == 0) break;
-		
+
 		--time.seconds;
 	}
 
