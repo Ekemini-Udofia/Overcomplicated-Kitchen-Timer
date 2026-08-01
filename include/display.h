@@ -34,7 +34,7 @@ void display_home_screen() {
 		display.setFont(u8g2_font_5x8_tr);
 		display.drawStr(32, 44, "Kitchen Timer");
 	} while (display.nextPage());
-	delay(2000);
+	delay(1000); // Safe - wdt is enabled after I call this func
 
 	display_app_select();
 }
@@ -55,9 +55,12 @@ void display_app_select() {
 		display.setFont(u8g2_font_profont22_tr);
 		display.drawStr(53, 39, "Timer");
 	} while (display.nextPage());
+
+	// Wait for user input, and reset the watchdog timer while checking
 }
 
 void display_timer_select_min() {
+	wdt_reset();
 	display.firstPage();
 
 	do {
@@ -76,6 +79,8 @@ void display_timer_select_min() {
 		display.drawStr(7, 55, "Seconds");
 		display.drawEllipse(9, 13, 3, 3);
 	} while (display.nextPage());
+
+	// Wait for user input and reset the watchdog timer while checking
 }
 
 void display_timer_select_sec() {
@@ -147,6 +152,8 @@ void start_timer_with_display(timer_t time) {
 		if (time.seconds == 0 && time.minutes == 0) break;
 
 		--time.seconds;
+
+		wdt_reset();
 	}
 
 	// Display final Zero Zero
