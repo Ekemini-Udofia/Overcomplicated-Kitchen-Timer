@@ -7,24 +7,23 @@ timer_t timer;
 
 void setup() {
   Serial.begin(115200);
+	Wire.begin();
 
 	pinMode(BTN_ONE, INPUT_PULLUP);
 	pinMode(BTN_TWO, INPUT_PULLUP);
 	pinMode(BUZZER_PIN, OUTPUT);
 	pinMode(POT_PIN, INPUT);
-	pinMode(13, OUTPUT);
 
-	// tone(BUZZER_PIN, 1000);
-
-
+	Serial.println("[SYS] Initialization started");
 
   delay(500); // Wait for display
 	if (!display_init()) {
 		Serial.println("[ERROR] Display failed to initialise!");
-		digitalWrite(13, HIGH);
 		while (true) {
 		}
 	}
+
+	Serial.println("[SYS] Display initialised successfully");
 
 	timer.seconds = 30;
 	timer.minutes = 5;
