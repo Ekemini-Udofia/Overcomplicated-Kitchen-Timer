@@ -24,3 +24,6 @@ A lightweight kitchen timer built on the Arduino framework for the ATmega168PA. 
 3. Select board target `ATmega168P` via `MiniCore`.
 4. Compile code.
 5. Flash to board via Arduino as ISP.
+
+## Note:
+- Change the port (`-P`) in `upload_command` under platformio.ini in the root dir to your upload port
