@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <avr/wdt.h>
 
 #include <display.h>
 #include <config.h>
@@ -28,7 +29,8 @@ void setup() {
 	timer.seconds = 30;
 	timer.minutes = 5;
 	
-	// display_home_screen();
+	display_home_screen();
+	wdt_enable(WDTO_2S);
 }
 
 void loop() {
@@ -41,4 +43,5 @@ void loop() {
 	if (!digitalRead(BTN_TWO)) {
 		tone(BUZZER_PIN, 5000);
 	}
+	wdt_reset();
 }
