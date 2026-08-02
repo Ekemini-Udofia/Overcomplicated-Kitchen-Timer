@@ -11,6 +11,10 @@ U8G2_SSD1306_128X64_NONAME_1_HW_I2C display(U8G2_R0, U8X8_PIN_NONE);
 
 // Function prototypes
 void display_app_select();
+void display_timer_select_min();
+
+
+// u8g2_font_osb26_tn
 
 bool display_init() {
 	Wire.beginTransmission(SCREEN_ADDR);
@@ -56,11 +60,18 @@ void display_app_select() {
 		display.drawStr(53, 39, "Timer");
 	} while (display.nextPage());
 
-	// Wait for user input, and reset the watchdog timer while checking
+	/* 	The preceding lines are kind of a bug for now.
+			If there are multiple apps, this will only select the first one.
+			Also the down button doesnt work.
+			Remember to check if select is actually physically closer to BTN_ONE or BTN_TWO
+	*/
+	while (digitalRead(BTN_ONE) == HIGH) {
+		wdt_reset();
+	}
+	display_timer_select_min();
 }
 
 void display_timer_select_min() {
-	wdt_reset();
 	display.firstPage();
 
 	do {
@@ -80,7 +91,15 @@ void display_timer_select_min() {
 		display.drawEllipse(9, 13, 3, 3);
 	} while (display.nextPage());
 
-	// Wait for user input and reset the watchdog timer while checking
+	__attribute__((unused)) int timer_minutes;
+
+	while (digitalRead(BTN_ONE) == HIGH) {
+		int raw_pot_value = analogRead(POT_PIN);
+
+		timer_minutes = map(raw_pot_value, 0, 1023, 0, 60);
+
+		wdt_reset();
+	}
 }
 
 void display_timer_select_sec() {
