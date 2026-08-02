@@ -1,0 +1,3 @@
+[submodule "lib/display_library"]
+	path = lib/display_library
+	url = https://github.com/Ekemini-Udofia/SSD1306-Arduino-Library
